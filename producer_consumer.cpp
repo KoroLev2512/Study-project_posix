@@ -100,26 +100,25 @@ void* consumer_interruptor_routine(void* arg) {
     return nullptr;
 }
 
-int run_threads(int treadsCount, int sleepTime, bool debug) {
+int run_threads(int threadsCount, int sleepTime, bool debug) {
     int sum = 0;
     int add = 0;
     pthread_t producer_thread, interrupt_thread;
-    std::vector<pthread_t> consumer_threads(treadsCount);
+    std::vector<pthread_t> consumer_threads(threadsCount);
     pthread_create(&producer_thread, nullptr, producer_routine, &add);
     producer_is_active = true;
 
     consumer_args consumer_args = {&sleepTime, &sum, &add, debug};
 
-    for (int i = 0; i < treadsCount; i++) {
+    for (int i = 0; i < threadsCount; i++) {
         pthread_create(&consumer_threads[i], nullptr, consumer_routine, &consumer_args);
     }
-
     pthread_create(&interrupt_thread, nullptr, consumer_interruptor_routine, &consumer_threads);
     pthread_join(producer_thread, nullptr);
     pthread_join(interrupt_thread, nullptr);
-    for (int i = 0; i < treadsCount; i++) {
+
+    for (int i = 0; i < threadsCount; i++) {
         pthread_join(consumer_threads[i], nullptr);
     }
-
     return sum;
 }

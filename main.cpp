@@ -7,14 +7,19 @@ int main(int argc, char* argv[]) {
         std::cout << "Check arguments" << std::endl;
         return -1;
     }
+
     int threadsCount = atoi(argv[1]);
     int sleepTime = atoi(argv[2]);
     bool debug = false;
+
     if (argc == 4 && std::string(argv[3]) == "-debug") {
         debug = true;
     }
+
     std::cout << run_threads(threadsCount, sleepTime, debug) << std::endl;
+
     return 0;
 }
+
 
 
