@@ -2,10 +2,10 @@
 #define CONSUMER_ARGS_H
 
 struct ConsumerArgs {
-    int* sleepTime;
-    int* sum;
-    int* add;
-    bool debug;
+  int* sleepTime;
+  int* sum;
+  int* add;
+  bool debug;
 };
 
 #endif
