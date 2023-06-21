@@ -1,7 +1,5 @@
 #include <pthread.h>
 #include <unistd.h>
-#include <cstdlib>
-#include <ctime>
 #include <iostream>
 #include <memory>
 #include <queue>
@@ -12,8 +10,6 @@ pthread_cond_t CV_CONSUMER = PTHREAD_COND_INITIALIZER;
 pthread_cond_t CV_PRODUCER = PTHREAD_COND_INITIALIZER;
 
 std::queue<int> buffer;
-
-static const int BUFFER_SIZE = 5;
 
 bool producer_is_active = true;
 bool is_new_number = false;
