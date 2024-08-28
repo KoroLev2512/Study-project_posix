@@ -1,0 +1,3 @@
+/Users/yourka/CLionProjects/posix/cmake-build-debug/CMakeFiles/producer_consumer.dir
+/Users/yourka/CLionProjects/posix/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/yourka/CLionProjects/posix/cmake-build-debug/CMakeFiles/rebuild_cache.dir

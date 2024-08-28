@@ -1,35 +1,17 @@
-# Assignment **POSIX**
+# Assignment: **POSIX**
+---
+Лабораторная работа: posix-элемент
 
-The task is to implement the classic **producer-consumer** pattern with a few additional conditions. The program should consist of 3 + *N* threads:
- 1. **main** 
- 2. **producer** 
- 3. **interruptor** 
- 4. *N* threads **consumer**
+Выполнил: Королев Юрий R33325 Университет ИТМО
 
-A string in the form of a list of numbers separated by a space is passed to the standard input to the program (it can be read until the end of the input). The length of the list of numbers is not specified - reading is performed up to the newline character or EOF (end of file)
- - The task of the **producer**-thread is to get a list of numbers as input and use each value from this list in turn to update the variable shared between the threads
- - The task of **consumer** is to respond to notifications from **producer** and collect the sum of the received values. Also, this thread should protect itself from attempts by the thread-**interruptor** to stop it. Additional conditions:
-	 1. The function executing the code of this thread **consumer_routine** must accept a pointer to an object/variable from which it will read updates
-	 2. After summing the variable, the thread should fall asleep for a random number of milliseconds, the upper limit will be passed to the application input (0 milliseconds should also be processed correctly). During sleep, the thread should not interfere with other **consumer** threads to perform their tasks, if they exist
-	 3. **consumer** threads should not duplicate calculations of the same values with each other
-	 4. As a return value, the thread should return its partial calculated sum
-- The task of the thread-**interruptor** is simple: while the process of updating values is taking place, it must constantly try to stop the random thread **consumer** (the calculation of the random thread occurs before each attempt to stop). As soon as the **producer** thread has made the last update, this thread ends.
+В данной работе необходимо реализовать классический шаблон **производитель-потребитель** с несколькими дополнительными условиями. Программа должна состоять из 3 + *N* потоков:
 
-The **run_threads** function should start all threads, wait for their execution, and return the result of the total summation.
+1. **main**
+2. **producer**
+3. **interruptor**
+4. *N* threads **consumer**
 
-Only the pthread API can be used to ensure interthreaded communication. At the start, 2 arguments are passed to the application as input in exactly this sequence:
- - Number of consumer threads 	
- - Upper limit of sleep **consumer** in milliseconds
-
-It is also necessary to implement support for the *–debug* key, when using which each **consumer** thread will output a pair (*tid*, *psum*), where *tid* is implemented using the **get_tid()** function, and *psum* is the sum that the thread calculated. The output of *psum* values occurs with each change.
-
-The **get_id()** function returns the thread ID. The thread ID is not just **pthread_self()**, but a unique number for each thread in the range *1.. 3+N*. The value of this number is supposed to be stored in *TLS*. The memory for the stored value should be allocated in heap, and the pointer to it in *TLS*. Also, the **get_tid** function should be self-sufficient (To use it in another project, it should only be enough to copy **get_tid** and use. But at the same time, you can add system header files)
-
-Only the resulting value should get into the output stream, by default no debugging or request information should be output.
-
-The presence of tests in the program is mandatory! The tests should cover the core functionality of project. Tests should be placed in a file tests/tests.cpp and use the doctest.h library, which is located in the tests directory. Changing the signature of the **run_threads** function is allowed at your discretion.
-
-The directory structure of the project looks like this:
+Структура каталогов проекта выглядит следующим образом:
 ```
 ├── Dockerfile
 ├── main.cpp
@@ -42,9 +24,7 @@ The directory structure of the project looks like this:
     └── tests.cpp
 ```
 
-It is forbidden to modify **Makefile/README.md/doctest.h** and hidden files in this directory. The rest of the files can be changed at your discretion. You can also add new cpp/h files if necessary. If you want to use CMake instead of GMake, you can add **CMakeLists.txt **, but do not forget that ** Makefile** is forbidden to touch.
-
-Template for tests:
+Шаблон для тестов:
 ```cpp
 /******* Template (tests/tests.cpp) **********/
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
@@ -54,7 +34,7 @@ Template for tests:
 TEST_CASE("just_example") { CHECK(4 == 4); }
 ```
 
-Template for project implementation:
+Шаблон для реализации проекта:
 ```cpp
 /******* Template (producer_consumer.cpp) **********/
 #include <pthread.h>
@@ -93,6 +73,30 @@ int run_threads() {
 }
 ```
 
+A string in the form of a list of numbers separated by a space is passed to the standard input to the program (it can be read until the end of the input). The length of the list of numbers is not specified - reading is performed up to the newline character or EOF (end of file)
+- The task of the **producer**-thread is to get a list of numbers as input and use each value from this list in turn to update the variable shared between the threads
+- The task of **consumer** is to respond to notifications from **producer** and collect the sum of the received values. Also, this thread should protect itself from attempts by the thread-**interruptor** to stop it. Additional conditions:
+	1. The function executing the code of this thread **consumer_routine** must accept a pointer to an object/variable from which it will read updates
+	2. After summing the variable, the thread should fall asleep for a random number of milliseconds, the upper limit will be passed to the application input (0 milliseconds should also be processed correctly). During sleep, the thread should not interfere with other **consumer** threads to perform their tasks, if they exist
+	3. **consumer** threads should not duplicate calculations of the same values with each other
+	4. As a return value, the thread should return its partial calculated sum
+- The task of the thread-**interruptor** is simple: while the process of updating values is taking place, it must constantly try to stop the random thread **consumer** (the calculation of the random thread occurs before each attempt to stop). As soon as the **producer** thread has made the last update, this thread ends.
+
+The **run_threads** function should start all threads, wait for their execution, and return the result of the total summation.
+
+Only the pthread API can be used to ensure interthreaded communication. At the start, 2 arguments are passed to the application as input in exactly this sequence:
+- Number of consumer threads
+- Upper limit of sleep **consumer** in milliseconds
+
+It is also necessary to implement support for the *–debug* key, when using which each **consumer** thread will output a pair (*tid*, *psum*), where *tid* is implemented using the **get_tid()** function, and *psum* is the sum that the thread calculated. The output of *psum* values occurs with each change.
+
+The **get_id()** function returns the thread ID. The thread ID is not just **pthread_self()**, but a unique number for each thread in the range *1.. 3+N*. The value of this number is supposed to be stored in *TLS*. The memory for the stored value should be allocated in heap, and the pointer to it in *TLS*. Also, the **get_tid** function should be self-sufficient (To use it in another project, it should only be enough to copy **get_tid** and use. But at the same time, you can add system header files)
+
+Only the resulting value should get into the output stream, by default no debugging or request information should be output.
+
+The presence of tests in the program is mandatory! The tests should cover the core functionality of project. Tests should be placed in a file tests/tests.cpp and use the doctest.h library, which is located in the tests directory. Changing the signature of the **run_threads** function is allowed at your discretion.
+
+It is forbidden to modify **Makefile/README.md/doctest.h** and hidden files in this directory. The rest of the files can be changed at your discretion. You can also add new cpp/h files if necessary. If you want to use CMake instead of GMake, you can add **CMakeLists.txt **, but do not forget that ** Makefile** is forbidden to touch.
 # Setup Environment
 All tests are run under `ubuntu:18.04`. You can choose a different version of ubuntu or a different distribution. But then the tests work on `ubuntu:18.04` is not guaranteed. To use `ubuntu:18.04` there are at least three ways:
  - native OS installation

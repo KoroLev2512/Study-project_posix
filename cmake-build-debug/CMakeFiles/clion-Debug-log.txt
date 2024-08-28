@@ -1,0 +1,10 @@
+/Users/yourka/Applications/CLion.app/Contents/bin/cmake/mac/aarch64/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_MAKE_PROGRAM=/Users/yourka/Applications/CLion.app/Contents/bin/ninja/mac/aarch64/ninja -G Ninja -S /Users/yourka/CLionProjects/posix -B /Users/yourka/CLionProjects/posix/cmake-build-debug
+-- The CXX compiler identification is AppleClang 15.0.0.15000309
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: /Library/Developer/CommandLineTools/usr/bin/c++ - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done (5.2s)
+-- Generating done (0.0s)
+-- Build files have been written to: /Users/yourka/CLionProjects/posix/cmake-build-debug
